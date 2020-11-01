@@ -9,26 +9,27 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 include_once '../config/dbclass.php'; // adding our db file
 
-include_once '../entities/usermaster.php'; // class file
+include_once '../entities/customermaster.php'; // class file
 
+// to get connection from database
 $dbclass = new DBClass();
 $connection = $dbclass->getConnection();
 
 
-$user = new UserMaster($connection);
+// new object of entity class
+$user = new CustomerMaster($connection);
 
 $data = json_decode(file_get_contents("php://input")); // request data stored in $data
 
-$user->name = $data->name;
-$user->shopname = $data->shopname;
-$user->emailid = $data->emailid;
-$user->address = $data->address;
-$user->gstno = $data->gstno;
-$user->password = $data->password;
+$user->custname = $data->custname;
+$user->mobile = $data->mobile;
+$user->email = $data->email;
+$user->userid = $data->userid;
 
 
 
-if($user->ins_usermaster())
+
+if($user->ins_customermaster())
 {
 	$Response->status="Success";
 	$Response->msg="Added done";

@@ -25,7 +25,7 @@
 
 		public function ins_usermaster()
 		{
-			$sql = "INSERT Into `usermaster` (`EmailID`,`Name`,`ShopName`,`Address`,`GSTNo`) values('$this->emailid','$this->name','$this->shopname','$this->address','$this->gstno')";
+			$sql = "INSERT Into `usermaster` (`EmailID`,`Name`,`ShopName`,`Address`,`GSTNo`,`Password`) values('$this->emailid','$this->name','$this->shopname','$this->address','$this->gstno','$this->password')";
 				if ($this->connection->query($sql) === TRUE)
 				{
 				  return true;
@@ -41,20 +41,20 @@
 		public function login()
 		{
 
-			  $sql = "SELECT UserID,Name FROM usermaster WHERE EmailID = '$this->emailid' and Password = '$this->password'";
-		      $result = mysqli_query($this->connection,$sql);  	      
-		      $row = mysqli_fetch_array($result,MYSQLI_ASSOC);		      
+			    $sql = "SELECT UserID,Name FROM usermaster WHERE EmailID = '$this->emailid' and Password = '$this->password'";
+		      $result = mysqli_query($this->connection,$sql);
+		      $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
 		      $count = mysqli_num_rows($result);
 
 		      // If result matched email and password, table row must be 1 row
 
-		      if($count == 1) 
+		      if($count == 1)
 		      {
 		      		$datadict->status="Success";
 		      		$datadict->userid = $row["UserID"];
 		      		$datadict->username = $row["Name"];
 		      }
-		      else 
+		      else
 		      {
 		         	$datadict->status="Fail";
 		      		$datadict->userid = 0;
