@@ -1,12 +1,14 @@
 <?php
-	class CustomerMaster
+	class ProductMaster
 	{
 		private $connection;
 
-		public $custid;
-		public $email;
-		public $custname;
-		public $mobile;
+		public $prodid;
+		public $prodname;
+		public $proddesc;
+		public $rateofpurchase;
+		public $rateofsell;
+		public $uom;
 		public $userid;
 		public $isactive;
 
@@ -21,9 +23,9 @@
 
 		//This function will perform insert operation for UserMaster table
 
-		public function ins_customermaster()
+		public function ins_productmaster()
 		{
-			$sql = "INSERT Into `customermaster` (`Email`,`CustName`,`Mobile`,`UserID`,`Isactive`) values('$this->email','$this->custname','$this->mobile','$this->userid',TRUE)";
+			$sql = "INSERT Into `productmaster` (`ProdName`,`ProdDesc`,`RateOfPurchase`,`RateOfSell`,`UOM`,`UserID`,`Isactive`) values('$this->prodname','$this->proddesc','$this->rateofpurchase','$this->rateofsell','$this->uom','$this->userid',TRUE)";
 				if ($this->connection->query($sql) === TRUE)
 				{
 				  return true;
@@ -36,10 +38,10 @@
 
 		}
 
-		public function customer_view()
+		public function product_view()
 		{
 
-			    $sql = "SELECT CustID,CustName,Email,Mobile FROM customermaster WHERE UserID = '$this->userid'";
+			    $sql = "SELECT ProdID,ProdName,RateOfSell,RateOfPurchase FROM productmaster WHERE UserID = '$this->userid'";
 		      $result = mysqli_query($this->connection,$sql);
 
 
@@ -53,10 +55,10 @@
               while($row1 = $result->fetch_assoc())
               {
                 // echo "string";
-								$datadict->custid=$row1["CustID"];
-                $datadict->custname=$row1["CustName"];
-  		      		$datadict->email = $row1["Email"];
-  		      		$datadict->mobile = $row1["Mobile"];
+                $datadict->prodname=$row1["ProdName"];
+  		      		$datadict->rateofpurchase = $row1["RateOfPurchase"];
+  		      		$datadict->rateofsell = $row1["RateOfSell"];
+								$datadict->prodid = $row1["ProdID"];
                 array_push($data,$datadict);
 								$datadict="";
               }
@@ -72,10 +74,11 @@
 		      return $data;
 		}
 
-		public function customer_byid()
+
+		public function product_byid()
 		{
 
-			    $sql = "SELECT CustID,CustName,Email,Mobile FROM customermaster WHERE CustID = '$this->custid'";
+			    $sql = "SELECT ProdID,ProdName,RateOfSell,RateOfPurchase,UOM FROM productmaster WHERE ProdID = '$this->prodid'";
 		      $result = mysqli_query($this->connection,$sql);
 
 
@@ -89,10 +92,11 @@
               while($row1 = $result->fetch_assoc())
               {
                 // echo "string";
-								$datadict->custid=$row1["CustID"];
-                $datadict->custname=$row1["CustName"];
-  		      		$datadict->email = $row1["Email"];
-  		      		$datadict->mobile = $row1["Mobile"];
+								$datadict->prodid=$row1["ProdID"];
+                $datadict->prodname=$row1["ProdName"];
+  		      		$datadict->ros = $row1["RateOfSell"];
+  		      		$datadict->rop = $row1["RateOfPurchase"];
+								$datadict->uom = $row1["UOM"];
                 array_push($data,$datadict);
 								$datadict="";
               }
@@ -111,9 +115,9 @@
 		      return array($data,$status);
 		}
 
-		public function upd_customermaster()
+		public function upd_productmaster()
 		{
-			$sql = "UPDATE `customermaster` set  `Email`='$this->email',`CustName`='$this->custname',`Mobile`='$this->mobile' where CustID=$this->custid ";
+			$sql = "UPDATE `productmaster` set `ProdName`='$this->prodname',`RateOfPurchase`='$this->rateofpurchase',`RateOfSell`='$this->rateofsell',`UOM`='$this->uom' where ProdID = '$this->prodid'";
 				if ($this->connection->query($sql) === TRUE)
 				{
 				  return true;

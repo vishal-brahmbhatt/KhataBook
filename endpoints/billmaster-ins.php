@@ -9,22 +9,40 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 include_once '../config/dbclass.php'; // adding our db file
 
-include_once '../entities/customermaster.php'; // class file
+include_once '../entities/billmaster.php'; // class file
 
 // to get connection from database
 $dbclass = new DBClass();
 $connection = $dbclass->getConnection();
 
+
 // new object of entity class
-$cust = new CustomerMaster($connection);
+$user = new BillMaster($connection);
 
 $data = json_decode(file_get_contents("php://input")); // request data stored in $data
 
-$cust->userid = $data->userid;
-$Response = $cust->customer_view();
+// echo $data;
 
-$res->data=$Response;
+$user->dateofbill = $data->dateofbill;
+$user->totalpaidamt = $data->totalpaidamt;
+$user->totalamt = $data->totalamt;
+$user->customerid = $data->customerid;
+$user->userid = $data->userid;
+$user->dtldata = $data->dtldata;
 
-echo json_encode($res);
+
+
+if($user->ins_billmaster())
+{
+	$Response->status="Success";
+	$Response->msg="Added done";
+}
+else
+{
+    $Response->status="Fail";
+		$Response->msg="Try after sometime";
+}
+
+echo json_encode($Response);
 
 ?>

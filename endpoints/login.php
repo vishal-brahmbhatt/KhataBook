@@ -1,5 +1,5 @@
 <?php
-
+error_reporting(E_ALL & ~E_WARNING );
 //This is end-point of our UserMaster Insert API this API can be use for registration
 
 header("Content-Type: application/json; charset=UTF-8");

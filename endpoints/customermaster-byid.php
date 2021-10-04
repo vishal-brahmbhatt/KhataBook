@@ -20,10 +20,11 @@ $cust = new CustomerMaster($connection);
 
 $data = json_decode(file_get_contents("php://input")); // request data stored in $data
 
-$cust->userid = $data->userid;
-$Response = $cust->customer_view();
+$cust->custid = $data->custid;
+$Response = $cust->customer_byid();
 
-$res->data=$Response;
+$res->data=$Response[0];
+$res->status=$Response[1];
 
 echo json_encode($res);
 

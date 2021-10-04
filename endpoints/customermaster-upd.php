@@ -15,16 +15,31 @@ include_once '../entities/customermaster.php'; // class file
 $dbclass = new DBClass();
 $connection = $dbclass->getConnection();
 
+
 // new object of entity class
-$cust = new CustomerMaster($connection);
+$user = new CustomerMaster($connection);
 
 $data = json_decode(file_get_contents("php://input")); // request data stored in $data
 
-$cust->userid = $data->userid;
-$Response = $cust->customer_view();
+$user->custname = $data->custname;
+$user->mobile = $data->mobile;
+$user->email = $data->email;
+$user->custid = $data->custid;
 
-$res->data=$Response;
 
-echo json_encode($res);
+
+
+if($user->upd_customermaster())
+{
+	$Response->status="Success";
+	$Response->msg="Added done";
+}
+else
+{
+    $Response->status="Fail";
+		$Response->msg="Try after sometime";
+}
+
+echo json_encode($Response);
 
 ?>

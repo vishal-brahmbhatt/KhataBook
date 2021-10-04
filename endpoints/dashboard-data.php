@@ -9,21 +9,22 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 include_once '../config/dbclass.php'; // adding our db file
 
-include_once '../entities/customermaster.php'; // class file
+include_once '../entities/billmaster.php'; // class file
 
 // to get connection from database
 $dbclass = new DBClass();
 $connection = $dbclass->getConnection();
 
 // new object of entity class
-$cust = new CustomerMaster($connection);
+$cust = new BillMaster($connection);
 
 $data = json_decode(file_get_contents("php://input")); // request data stored in $data
 
 $cust->userid = $data->userid;
-$Response = $cust->customer_view();
+$Response = $cust->get_dashboard_data();
 
-$res->data=$Response;
+$res->data=$Response[0];
+$res->status = $Response[1];
 
 echo json_encode($res);
 
